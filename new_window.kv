@@ -1,5 +1,13 @@
-<MyLayout>:
-    id:my_widget
+WindowManager:
+    FirstWindow:
+    SecondWindow:
+    ThirdWindow:
+    AboutWindow:
+    FlowerPredictionWindow:
+    LeafPredictionWindow:
+
+<FirstWindow>:
+    name: "first"
     BoxLayout:
 
         orientation:"vertical"
@@ -8,22 +16,20 @@
         padding:50
         spacing:30
 
+        canvas.before:
+            Rectangle:
+                pos: self.pos
+                size: self.size
+                source: 'background.jpg'
+
         Label:
-            text: "FLOWER SPECIES CLASSIFICATION APP"
+            text: "KNOW YOUR PLANT"
             font_size: 35
             # Text Properties
             color:(255/255.0,153/255.0,204/255.0,0.5)
             bold: True
             outline_color: (0/255.0,0/255.0,0/255.0,0.5)
             outline_width:3
-
-        Image:
-            id: my_image
-            source: ""
-
-        FileChooserIconView:
-            id:filechooser
-            on_selection:my_widget.selected(filechooser.selection)
 
         Button:
             text: "Predict Flower Species"
@@ -34,3 +40,250 @@
             bold: True
             outline_color: (0/255.0,0/255.0,0/255.0,0.5)
             outline_width:3
+            on_release: 
+                app.root.current = "second"
+                root.manager.transition.direction= "left"
+        Button:
+            text: "Predict Leaf Species"
+            font_size: 25
+            background_normal: ''
+            background_color:(153/255.0,153/255.0,0/255.0,0.5)
+            color:(102/255.0,51/255.0,0/255.0,0.5)
+            bold: True
+            outline_color: (0/255.0,0/255.0,0/255.0,0.5)
+            outline_width:3
+            on_release: 
+                app.root.current = "third"
+                root.manager.transition.direction= "left"
+
+        Button:
+            text: "About"
+            font_size: 25
+            background_normal: ''
+            background_color:(153/255.0,153/255.0,0/255.0,0.5)
+            color:(102/255.0,51/255.0,0/255.0,0.5)
+            bold: True
+            outline_color: (0/255.0,0/255.0,0/255.0,0.5)
+            outline_width:3
+            on_release: 
+                app.root.current = "about"
+                root.manager.transition.direction= "left"
+
+<SecondWindow>:
+    name: "second"
+    id:second
+
+    TextInput: 
+        id: text_input
+    
+    BoxLayout:
+
+        orientation:"vertical"
+        size: root.width,root.height
+
+        padding:50
+        spacing:30
+
+        canvas.before:
+            Rectangle:
+                pos: self.pos
+                size: self.size
+                source: 'plain_background.jpg'
+
+        Label:
+            text: "FLOWER SPECIES CLASSIFIER"
+            font_size: 25
+            # Text Properties
+            color:(255/255.0,153/255.0,204/255.0,0.5)
+            bold: True
+            outline_color: (0/255.0,0/255.0,0/255.0,0.5)
+            outline_width:3
+
+        FileChooserIconView:
+            id:filechooser
+            on_selection: 
+                app.root.get_screen("FlowerPredictionWindow").selected(filechooser.selection)
+                app.root.current = "FlowerPredictionWindow"
+                root.manager.transition.direction= "left"
+            
+                
+
+<ThirdWindow>:
+    name: "third"
+    id:third
+    BoxLayout:
+
+        orientation:"vertical"
+        size: root.width,root.height
+
+        padding:50
+        spacing:30
+
+        canvas.before:
+            Rectangle:
+                pos: self.pos
+                size: self.size
+                source: 'plain_background.jpg'
+
+        Label:
+            text: "KNOW ABOUT PLANT DISEASE"
+            font_size: 25
+            # Text Properties
+            color:(255/255.0,153/255.0,204/255.0,0.5)
+            bold: True
+            outline_color: (0/255.0,0/255.0,0/255.0,0.5)
+            outline_width:3
+
+        TextInput:
+            id:out
+            multiline: True
+            text:"Click the photo of your leaf and upload it here\nto know about the disease category."
+            readonly: True 
+
+        FileChooserIconView:
+            id:filechooser
+            on_selection:
+                app.root.get_screen("LeafPredictionWindow").selected(filechooser.selection)
+                app.root.current = "LeafPredictionWindow"
+                root.manager.transition.direction= "left"
+
+<FlowerPredictionWindow>:
+    name: "FlowerPredictionWindow"
+    id:FlowerPrediction
+    BoxLayout:
+        orientation:"vertical"
+        size: root.width,root.height
+
+        padding:50
+        spacing:30
+
+        canvas.before:
+            Rectangle:
+                pos: self.pos
+                size: self.size
+                source: 'plain_background.jpg'
+
+        Image:
+            id: my_image
+            source: ""        
+
+        Label:
+            id:xyz
+            font_size: 35
+            # Text Properties
+            color:(255/255.0,153/255.0,204/255.0,0.5)
+            bold: True
+            outline_color: (0/255.0,0/255.0,0/255.0,0.5)
+            outline_width:3 
+
+        Button:
+            text: "Home"
+            font_size: 20
+            background_normal: ''
+            background_color:(153/255.0,153/255.0,0/255.0,0.5)
+            color:(102/255.0,51/255.0,0/255.0,0.5)
+            bold: True
+            outline_color: (0/255.0,0/255.0,0/255.0,0.5)
+            outline_width:3
+            on_release: 
+                app.root.current = "first"
+                root.manager.transition.direction= "left"
+        
+
+<LeafPredictionWindow>:
+    name: "LeafPredictionWindow"
+    id:LeafPrediction
+    BoxLayout:
+
+        orientation:"vertical"
+        size: root.width,root.height
+
+        padding:50
+        spacing:30
+
+        canvas.before:
+            Rectangle:
+                pos: self.pos
+                size: self.size
+                source: 'plain_background.jpg'
+        
+        Image:
+            id: my_image
+            source: ""
+
+        Label:
+            text: "Following leaf is:"
+            font_size: 30
+            # Text Properties
+            color:(255/255.0,153/255.0,204/255.0,0.5)
+            bold: True
+            outline_color: (0/255.0,0/255.0,0/255.0,0.5)
+            outline_width:3 
+
+        Label:
+            id:abc
+            font_size: 25
+            # Text Properties
+            color:(255/255.0,153/255.0,204/255.0,0.5)
+            bold: True
+            outline_color: (0/255.0,0/255.0,0/255.0,0.5)
+            outline_width:3
+
+        Button:
+            text: "Home"
+            font_size: 20
+            background_normal: ''
+            background_color:(153/255.0,153/255.0,0/255.0,0.5)
+            color:(102/255.0,51/255.0,0/255.0,0.5)
+            bold: True
+            outline_color: (0/255.0,0/255.0,0/255.0,0.5)
+            outline_width:3
+            on_release: 
+                app.root.current = "first"
+                root.manager.transition.direction= "left"
+    
+
+<AboutWindow>:
+    name: "about"
+
+    BoxLayout:
+
+        orientation:"vertical"
+        size: root.width,root.height
+
+        padding:50
+        spacing:30
+
+        canvas.before:
+            Rectangle:
+                pos: self.pos
+                size: self.size
+                source: 'plain_background.jpg'
+
+        Label:
+            text: "About"
+            font_size: 35
+            # Text Properties
+            color:(255/255.0,153/255.0,204/255.0,0.5)
+            bold: True
+            outline_color: (0/255.0,0/255.0,0/255.0,0.5)
+            outline_width:3 
+
+        TextInput:
+            id:out
+            multiline: True
+            text:"This project is part of our academic project for course AM623D(Machine Learning).\nThis app is developed by:\n1) Deewakar Chakraboty\n2) Souvik Roy"
+            readonly: True 
+
+        Button:
+            text: "Home"
+            font_size: 20
+            background_normal: ''
+            background_color:(153/255.0,153/255.0,0/255.0,0.5)
+            color:(102/255.0,51/255.0,0/255.0,0.5)
+            bold: True
+            outline_color: (0/255.0,0/255.0,0/255.0,0.5)
+            outline_width:3
+            on_release: 
+                app.root.current = "first"
+                root.manager.transition.direction= "left"

@@ -1,37 +1,55 @@
-import kivy
 from kivy.app import App
-from kivy.uix.label import Label
-from kivy.uix.gridlayout import GridLayout
-from kivy.uix.textinput import TextInput
-from kivy.uix.button import Button
 from kivy.uix.widget import Widget
 from kivy.lang import Builder
-from kivy.uix.screenmanager import ScreenManager, Screen
-from kivy.core.window import Window
-from kivy.uix.image import Image
-from PIL import *
+from kivy.uix.screenmanager import Screen, ScreenManager
+from kivy.uix.textinput import TextInput
+import requests 
 
+class FirstWindow(Screen):
+    pass
 
-# Designate our .kv design file
-kv=Builder.load_file('new_window.kv')
+class SecondWindow(Screen):
+    pass      
 
+class ThirdWindow(Screen):
+    pass
 
-class MyLayout(Widget):
+class AboutWindow(Screen):
+    pass
 
+class FlowerPredictionWindow(Screen):
     def selected(self, filename):
         try:
             self.ids.my_image.source = filename[0]
-            print(filename[0])
+            #print(filename[0])
+            resp = requests.post("https://pytorch-flower-classifier.herokuapp.com/predict", files={'file': open(filename[0], 'rb')})
+            str= resp.text.split(',')[0].split(':')[1][1:-1]
+            self.ids.xyz.text = str
+
+        except:
+            pass
+       
+
+class LeafPredictionWindow(Screen):
+    def selected(self, filename):
+        try:
+            self.ids.my_image.source = filename[0]
+            #print(filename[0])
+            resp = requests.post("https://leaf-disease-classifier.herokuapp.com/predict", files={'file': open(filename[0], 'rb')})
+            str = resp.text.split(',')[0].split(':')[1][1:-1]
+            self.ids.abc.text = str
 
         except:
             pass
 
+class WindowManager(ScreenManager):
+    pass
 
-class FlowerApp(App):
+kv = Builder.load_file('new_window.kv')
+
+class KnowYourPlantApp(App):
     def build(self):
-        Window.clearcolor = (153 / 255.0, 204 / 255.0, 255 / 255.0, 0.5)
-        return MyLayout()
-
+        return kv
 
 if __name__ == '__main__':
-    FlowerApp().run()
+    KnowYourPlantApp().run()
