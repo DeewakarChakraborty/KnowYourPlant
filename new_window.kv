@@ -100,6 +100,7 @@ WindowManager:
             outline_width:3
 
         FileChooserIconView:
+            rootpath: '/storage/emulated/0/' 
             id:filechooser
             on_selection: 
                 app.root.get_screen("FlowerPredictionWindow").selected(filechooser.selection)
@@ -141,6 +142,7 @@ WindowManager:
             readonly: True 
 
         FileChooserIconView:
+            rootpath: '/storage/emulated/0/' 
             id:filechooser
             on_selection:
                 app.root.get_screen("LeafPredictionWindow").selected(filechooser.selection)
