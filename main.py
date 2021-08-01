@@ -6,6 +6,8 @@ from kivy.uix.screenmanager import Screen, ScreenManager
 from kivy.uix.textinput import TextInput
 import requests 
 from plyer import filechooser
+from kivy.uix.button import Button
+from kivy.properties import ListProperty
 
 class FirstWindow(Screen):
     pass
@@ -33,18 +35,26 @@ class FlowerPredictionWindow(Screen):
             print("Exception block")
        
 
-class LeafPredictionWindow(Screen):
+class LeafPredictionWindow(Screen,Button):
+    
+    selection = ListProperty([])
+
     def selected(self):
         try:
-            file_path = filechooser.choose_dir(on_selection=self.handle_selection)
-            self.ids.my_image.source = file_path[0]
-            #print(filename[0])
-            resp = requests.post("https://leaf-disease-classifier.herokuapp.com/predict", files={'file': open(file_path[0], 'rb')})
-            str = resp.text.split(',')[0].split(':')[1][1:-1]
-            self.ids.abc.text = str
-
+            filechooser.open_file(on_selection=self.handle_selection)
         except:
             print("Exception block")
+    
+    def handle_selection(self, selection):
+        self.selection = selection
+
+    def on_selection(self, *a, **k):
+        file_path = str(self.selection)
+        self.ids.my_image.source = file_path
+        resp = requests.post("https://leaf-disease-classifier.herokuapp.com/predict", files={'file': open(file_path, 'rb')})
+        strp = resp.text.split(',')[0].split(':')[1][1:-1]
+        self.ids.abc.text = strp
+    
 
 class WindowManager(ScreenManager):
     pass
