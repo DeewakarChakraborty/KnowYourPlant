@@ -5,9 +5,17 @@ from kivy.lang import Builder
 from kivy.uix.screenmanager import Screen, ScreenManager
 from kivy.uix.textinput import TextInput
 import requests 
-from plyer import filechooser
 from kivy.uix.button import Button
 from kivy.properties import ListProperty
+from kivymd.uix.filemanager import MDFileManager
+from kivymd.toast import toast
+from kivymd.app import MDApp
+
+from android.permissions import request_permissions, Permission
+request_permissions([Permission.WRITE_EXTERNAL_STORAGE, Permission.READ_EXTERNAL_STORAGE, Permission.INTERNET])
+
+from android.storage import primary_external_storage_path
+primary_ext_storage = primary_external_storage_path()
 
 class FirstWindow(Screen):
     pass
@@ -22,38 +30,11 @@ class AboutWindow(Screen):
     pass
 
 class FlowerPredictionWindow(Screen):
-    def selected(self):
-        try:
-            file_path = filechooser.choose_dir(title = "Choose jpg/png", filters=[("jpg", "*png")])
-            self.ids.my_image.source = file_path[0]
-            #print(filename[0])
-            resp = requests.post("https://pytorch-flower-classifier.herokuapp.com/predict", files={'file': open(file_path[0], 'rb')})
-            str= resp.text.split(',')[0].split(':')[1][1:-1]
-            self.ids.xyz.text = str
+    pass
 
-        except:
-            print("Exception block")
-       
-
-class LeafPredictionWindow(Screen,Button):
+class LeafPredictionWindow(Screen):
+    pass
     
-    selection = ListProperty([])
-
-    def selected(self):
-        try:
-            filechooser.open_file(on_selection=self.handle_selection)
-        except:
-            print("Exception block")
-    
-    def handle_selection(self, selection):
-        self.selection = selection
-
-    def on_selection(self, *a, **k):
-        file_path = str(self.selection)
-        self.ids.my_image.source = file_path
-        resp = requests.post("https://leaf-disease-classifier.herokuapp.com/predict", files={'file': open(file_path, 'rb')})
-        strp = resp.text.split(',')[0].split(':')[1][1:-1]
-        self.ids.abc.text = strp
     
 
 class WindowManager(ScreenManager):
@@ -61,7 +42,36 @@ class WindowManager(ScreenManager):
 
 kv = Builder.load_file('new_window.kv')
 
-class KnowYourPlantApp(App):
+class KnowYourPlantApp(MDApp):
+
+    def __init__(self, **kwargs):
+        super().__init__(**kwargs)
+        self.file_manager_obj = MDFileManager( select_path = self.select_path,exit_manager = self. exit_manager,preview=True)
+
+    def open_file_manager(self):
+        self.file_manager_obj.show('primary_ext_storage') 
+        #self.file_manager_obj = True
+        #self.open_file_manager()
+
+    def exit_manager(self):
+        self.file_manager_obj.close()
+
+    def select_path(self, path):
+        print(path)   
+        if(self.root.current_screen.name == 'third'):
+            self.root.get_screen("LeafPredictionWindow").ids.my_image2.source = path
+            resp = requests.post("https://leaf-disease-classifier.herokuapp.com/predict", files={'file': open(path, 'rb')})
+            str= resp.text.split(',')[0].split(':')[1][1:-1]
+            self.root.get_screen("LeafPredictionWindow").ids.abc.text = str
+        else:
+            self.root.get_screen("FlowerPredictionWindow").ids.my_image1.source = path
+            resp = requests.post("https://pytorch-flower-classifier.herokuapp.com/predict", files={'file': open(path, 'rb')})
+            str= resp.text.split(',')[0].split(':')[1][1:-1]
+            self.root.get_screen("FlowerPredictionWindow").ids.xyz.text = str
+
+        self.exit_manager() 
+          
+
     def build(self):
         return kv
 
