@@ -49,7 +49,7 @@ class KnowYourPlantApp(MDApp):
         self.file_manager_obj = MDFileManager( select_path = self.select_path,exit_manager = self. exit_manager,preview=True)
 
     def open_file_manager(self):
-        self.file_manager_obj.show('primary_ext_storage') 
+        self.file_manager_obj.show(primary_ext_storage) 
         #self.file_manager_obj = True
         #self.open_file_manager()
 
