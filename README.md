@@ -4,19 +4,19 @@ This application is part of our academic project for the course Machine Learning
 
 Some sample snapshots of the application: 
 
-![1](images/screenshot1.jpg)
+![1](images/screenshot1.png)
 
-![2](images/screenshot2.jpg)
+![2](images/screenshot2.png)
 
-![2](images/screenshot3.jpg)
+![2](images/screenshot3.png)
 
-![2](images/screenshot5.jpg)
+![2](images/screenshot5.png)
 
-![2](images/screenshot6.jpg)
+![2](images/screenshot6.png)
 
-![2](images/screenshot7.jpg)
+![2](images/screenshot7.png)
 
-![2](images/screenshot8.jpg)
+![2](images/screenshot8.png)
 
 
 
