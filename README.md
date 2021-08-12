@@ -4,7 +4,7 @@ This application is part of our academic project for the course Machine Learning
 
 Some sample snapshots of the application: 
 
-![1](images/screenshot1.png)
+![1](/images/screenshot1.png)
 
 ![2](images/screenshot2.png)
 
