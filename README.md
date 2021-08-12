@@ -6,17 +6,17 @@ Some sample snapshots of the application:
 
 ![1](/images/Screenshot1.png)
 
-![2](images/screenshot2.png)
+![2](/images/Screenshot2.png)
 
-![2](images/screenshot3.png)
+![3](/images/Screenshot3.png)
 
-![2](images/screenshot5.png)
+![2](/images/Screenshot5.png)
 
-![2](images/screenshot6.png)
+![2](/images/Screenshot6.png)
 
-![2](images/screenshot7.png)
+![2](/images/Screenshot7.png)
 
-![2](images/screenshot8.png)
+![2](/images/Screenshot8.png)
 
 
 
